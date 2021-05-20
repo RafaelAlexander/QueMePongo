@@ -1,7 +1,5 @@
 package Prenda;
 
-import java.util.Objects;
-
 public class Color {
     int rojo;
     int amarillo;

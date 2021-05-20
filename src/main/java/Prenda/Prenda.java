@@ -1,19 +1,22 @@
 package Prenda;
 
-import Prenda.Categoria.Categoria;
+import Prenda.Categoria.Material;
+import Prenda.Categoria.TipoDePrenda;
 
 import java.util.Objects;
 
 public class Prenda {
-    Categoria categoria;
-    ComposicionPrenda composicionPrenda;
-    Color primario;
-    Color secundario;
+  private TipoDePrenda tipoDePrenda;
+  private Material material;
+  private Color primario;
+  private Color secundario;
+  private Trama trama;
 
-    public Prenda(Categoria categoria, ComposicionPrenda composicionPrenda, Color primario, Color secundario) {
-        this.categoria = Objects.requireNonNull(categoria, "Debe indicar la categoria");
-        this.composicionPrenda = Objects.requireNonNull(composicionPrenda, "Debe indicar la composion de la prenda");
-        this.primario = Objects.requireNonNull(primario, "Debe indicar el color primario");
-        this.secundario = secundario;
-    }
+  public Prenda(TipoDePrenda tipoDePrenda, Material material, Color primario, Color secundario, Trama trama) {
+    this.tipoDePrenda = Objects.requireNonNull(tipoDePrenda, "Debe indicar la categoria");
+    this.material = Objects.requireNonNull(material, "Debe indicar la composion de la prenda");
+    this.primario = Objects.requireNonNull(primario, "Debe indicar el color primario");
+    this.secundario = secundario;
+    this.trama = trama;
+  }
 }

@@ -1,4 +1,8 @@
 package Prenda.Categoria;
 
-public interface Categoria {
+public enum Categoria {
+  ACCESORIO,
+  CALZADO,
+  PARTEINFERIOR,
+  PARTESUPERIOR
 }
