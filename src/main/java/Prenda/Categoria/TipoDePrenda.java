@@ -18,4 +18,8 @@ public class TipoDePrenda {
       throw new RuntimeException("Usted no indico material valido");
     }
   }
+
+  public Boolean soyDeCategoria(Categoria categoria) {
+    return categoria == categoria;
+  }
 }
