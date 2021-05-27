@@ -12,8 +12,6 @@ public class Usuario {
   }
 
   public void agregarGuardarropas(List<Prenda> prendas, Criterio criterio, List<Usuario> copropietarios) {
-    new Guardarropa(prendas,criterio, this, copropietarios);
+    new Guardarropa(prendas, criterio, this, copropietarios);
   }
-
-
 }

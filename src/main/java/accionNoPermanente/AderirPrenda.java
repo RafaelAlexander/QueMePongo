@@ -10,14 +10,19 @@ public class AderirPrenda implements ModificacionGuardarropa {
   private Usuario propietario;
   private Prenda prenda;
 
+  public AderirPrenda(Prenda prenda) {
+    this.prenda = prenda;
+  }
+
   public AderirPrenda(Usuario propietario, Prenda prenda) {
     this.prenda = prenda;
     this.propietario = propietario;
   }
 
   @Override
-  public Prenda accionSobre(List<Prenda> prendasList) {
-    return Prenda;
+  public List<Prenda> accionSobre(List<Prenda> prendasList) {
+    prendasList.add(this.prenda);
+    return prendasList;
   }
 
   @Override
@@ -32,8 +37,13 @@ public class AderirPrenda implements ModificacionGuardarropa {
   public Boolean getEstaRatificado() {
     return estaRatificado;
   }
+
+  public Prenda getPrenda() {
+    return prenda;
+  }
+
   @Override
-  public Boolean soyAdicion(){
+  public boolean soyAdicion() {
     return true;
   }
 }

@@ -6,11 +6,13 @@ import Prenda.Usuario;
 import java.util.List;
 
 public interface ModificacionGuardarropa {
-  public Prenda accionSobre();
+  public List<Prenda> accionSobre(List<Prenda> prendas);
 
   public void cambiarStatusDeModificacion(Usuario usuario, Boolean aprobacion);
 
   public Boolean getEstaRatificado();
 
-  public Boolean soyAdicion();
+  Prenda getPrenda();
+
+  boolean soyAdicion();
 }

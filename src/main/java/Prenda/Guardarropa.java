@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class Guardarropa {
   Usuario propietario;
-  List<Usuario> copropietarios;
+  List<Usuario> copropietarios = new ArrayList<>();
   //Faltaria agregar el meterologo para hacer las sugerencias
   List<Prenda> prendas = new ArrayList<>();
   List<ModificacionGuardarropa> modificacionesExternas = new ArrayList<>();
@@ -32,31 +32,47 @@ public class Guardarropa {
     if (!this.propietario.equals(propietario)) {
       throw new RuntimeException("Usted no esta autorizado");
     }
+    this.verificarCriterio(prenda);
     this.prendas.add(prenda);
   }
 
-  public void sugerenciaDeAgregarPrenda(Usuario copropietario, Prenda prenda) {
+  public void agregarSugerencia(Usuario copropietario, ModificacionGuardarropa modificacionGuardarropa) {
+    this.verificarCopropietario(copropietario);
+    if (modificacionGuardarropa.soyAdicion()) {
+      this.verificarCriterio(modificacionGuardarropa.getPrenda());
+    }
+    this.modificacionesExternas.add(modificacionGuardarropa);
+  }
+
+  public void eliminarSugerencia(Usuario copropietario, ModificacionGuardarropa modificacionGuardarropa) {
+    this.verificarCopropietario(copropietario);
+    this.modificacionesExternas.remove(modificacionGuardarropa);
+  }
+
+  private void verificarCopropietario(Usuario copropietario) {
     if (!this.copropietarios.contains(copropietario)) {
       throw new RuntimeException("Usted no esta autorizado");
     }
+  }
+
+  private void verificarCriterio(Prenda prenda) {
     if (this.criterio != prenda.getCriterio()) {
       throw new RuntimeException("Prenda no cumple con criterio");
     }
-    this.modificacionesExternas.add(new AderirPrenda(this.propietario, prenda));
   }
 
   public List<Prenda> getPrendas() {
-    List<Prenda> prendasConSugerencia = new ArrayList<>(this.prendas);
-    prendasConSugerencia.addAll(darPrendasAditivas());
-    prendasConSugerencia.removeAll(darPrendasSustractivas());
-    return prendasConSugerencia;
+    return this.prendasConModificaciones(this.prendas, this.modificacionesExternas.stream().filter(mod -> mod.getEstaRatificado()).collect(Collectors.toList()));
   }
 
-  public List<Prenda> darPrendasAditivas() {
-    return this.modificacionesExternas.stream().filter(mod -> mod.soyAdicion()).map(modificacionGuardarropa -> modificacionGuardarropa.accionSobre()).collect(Collectors.toList());
-  }
+  public List<Prenda> prendasConModificaciones(List<Prenda> prendas, List<ModificacionGuardarropa> modificaciones) {
 
-  public List<Prenda> darPrendasSustractivas() {
-    return this.modificacionesExternas.stream().filter(mod -> !mod.soyAdicion()).map(modificacionGuardarropa -> modificacionGuardarropa.accionSobre()).collect(Collectors.toList());
+    if (!modificaciones.isEmpty()) {
+      ModificacionGuardarropa modificacionNula = new AderirPrenda(null);
+      ModificacionGuardarropa modificacionActual = modificaciones.stream().findFirst().orElse(modificacionNula);
+      modificaciones.remove(modificacionActual);
+      prendas = this.prendasConModificaciones(modificacionActual.accionSobre(prendas), modificaciones);
+    }
+    return prendas;
   }
 }

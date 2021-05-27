@@ -10,14 +10,19 @@ public class QuitarPrenda implements ModificacionGuardarropa {
   private Usuario propietario;
   private Prenda prenda;
 
+  public QuitarPrenda(Prenda prenda) {
+    this.prenda = prenda;
+  }
+
   public QuitarPrenda(Usuario propietario, Prenda prenda) {
     this.prenda = prenda;
     this.propietario = propietario;
   }
 
   @Override
-  public Prenda accionSobre() {
-    return prenda;
+  public List<Prenda> accionSobre(List<Prenda> prendas) {
+    prendas.remove(this.prenda);
+    return prendas;
   }
 
   @Override
@@ -33,7 +38,12 @@ public class QuitarPrenda implements ModificacionGuardarropa {
     return estaRatificado;
   }
 
-  public Boolean soyAdicion() {
-    return true;
+  public Prenda getPrenda() {
+    return prenda;
+  }
+
+  @Override
+  public boolean soyAdicion() {
+    return false;
   }
 }

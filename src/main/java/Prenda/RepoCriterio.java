@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class RepoCriterio {
+  //Creo que esta repo es inncesaria
   private static Set<Criterio> criterioList = new HashSet<>();
   private static RepoCriterio repoCriterio = new RepoCriterio();
 
