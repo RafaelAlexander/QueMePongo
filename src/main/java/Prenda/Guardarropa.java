@@ -2,17 +2,21 @@ package Prenda;
 
 import accionNoPermanente.AderirPrenda;
 import accionNoPermanente.ModificacionGuardarropa;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Guardarropa {
+public class Guardarropa implements Job{
   Usuario propietario;
   List<Usuario> copropietarios = new ArrayList<>();
   //Faltaria agregar el meterologo para hacer las sugerencias
   List<Prenda> prendas = new ArrayList<>();
   List<ModificacionGuardarropa> modificacionesExternas = new ArrayList<>();
+
 
   Criterio criterio;
 
@@ -20,6 +24,22 @@ public class Guardarropa {
     this.prendas = prendas;
     this.comprobarCriterioExiste(criterio);
     this.criterio = criterio;
+  }
+
+  @Override
+  public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+    //Para que reinicie la lista lo mejor seria tener a un objeto que tenga a los guardarropas como Usuario ya es utilizada lo mejor sera una repo
+    //Asi tambien no lo llena de alertas
+    //O esto puede estar en meteorologo pero como no esta implementado en esta ramma lo deje aca
+    if(meteorologo.tieneAlertas()){
+      this.propietario.darNotificacionesAUsuario();
+      this.propietario.agregarAtuendoSugerencia(this.generarAtuendoDelDia());
+    }
+  }
+
+  public Atuendo generarAtuendoDelDia() {
+    //TODO: aca se puede utilizar el mecanismo de branch main que debo arreglar con un stream().firstFind
+    return null;
   }
 
   public void comprobarCriterioExiste(Criterio criterio) {
